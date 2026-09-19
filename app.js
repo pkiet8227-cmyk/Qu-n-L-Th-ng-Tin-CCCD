@@ -4,93 +4,93 @@
    SUPABASE
 ========================================================= */
 
-const SUPABASE_URL = "https://hfvcvxrljvbqqifgbkac.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_85chCDmVUX_rKw8f3FKfLA_zMWP5__-";
+const SUPABASE_URL =
+  "DAN_SUPABASE_URL_CUA_BAN";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
+const SUPABASE_ANON_KEY =
+  "DAN_SUPABASE_PUBLISHABLE_KEY_CUA_BAN";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
 
 
 /* =========================================================
    ELEMENTS
 ========================================================= */
 
-const loginSection = document.getElementById("loginSection");
-const mainSection = document.getElementById("mainSection");
+const loginSection =
+  document.getElementById("loginSection");
 
-const googleLoginBtn = document.getElementById("googleLoginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
+const mainSection =
+  document.getElementById("mainSection");
 
-const loginError = document.getElementById("loginError");
+const loginForm =
+  document.getElementById("loginForm");
 
-const userEmail = document.getElementById("userEmail");
+const loginBtn =
+  document.getElementById("loginBtn");
 
-const cccdForm = document.getElementById("cccdForm");
+const loginError =
+  document.getElementById("loginError");
 
-const saveBtn = document.getElementById("saveBtn");
+const logoutBtn =
+  document.getElementById("logoutBtn");
 
-const formMessage = document.getElementById("formMessage");
+const userEmail =
+  document.getElementById("userEmail");
 
+const cccdForm =
+  document.getElementById("cccdForm");
 
-/* =========================================================
-   KIỂM TRA ĐĂNG NHẬP
-========================================================= */
+const saveBtn =
+  document.getElementById("saveBtn");
 
-async function checkUser() {
-
-  const {
-    data,
-    error
-  } = await supabaseClient.auth.getSession();
-
-  if (error) {
-
-    console.error(error);
-
-    showLogin();
-
-    return;
-  }
-
-
-  const session = data.session;
-
-  if (session && session.user) {
-
-    showMain(session.user);
-
-  } else {
-
-    showLogin();
-
-  }
-}
+const formMessage =
+  document.getElementById("formMessage");
 
 
 /* =========================================================
-   HIỂN THỊ LOGIN
+   SHOW LOGIN
 ========================================================= */
 
 function showLogin() {
 
-  loginSection.classList.remove("hidden");
+  loginSection.classList.remove(
+    "hidden"
+  );
 
-  mainSection.classList.add("hidden");
+  mainSection.classList.add(
+    "hidden"
+  );
+
+  logoutBtn.classList.add(
+    "hidden"
+  );
 
 }
 
 
 /* =========================================================
-   HIỂN THỊ MAIN
+   SHOW MAIN
 ========================================================= */
 
 function showMain(user) {
 
-  loginSection.classList.add("hidden");
+  loginSection.classList.add(
+    "hidden"
+  );
 
-  mainSection.classList.remove("hidden");
+  mainSection.classList.remove(
+    "hidden"
+  );
+
+  logoutBtn.classList.remove(
+    "hidden"
+  );
 
   userEmail.textContent =
     user.email || "---";
@@ -99,42 +99,124 @@ function showMain(user) {
 
 
 /* =========================================================
-   GOOGLE LOGIN
+   CHECK LOGIN
 ========================================================= */
 
-googleLoginBtn.addEventListener(
-  "click",
-  async function () {
+async function checkUser() {
 
-    loginError.textContent = "";
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth
+      .getSession();
 
-    const redirectTo =
-      window.location.origin +
-      window.location.pathname;
+
+  if (error) {
+
+    console.error(error);
+
+    showLogin();
+
+    return;
+
+  }
+
+
+  if (
+    data.session &&
+    data.session.user
+  ) {
+
+    showMain(
+      data.session.user
+    );
+
+  } else {
+
+    showLogin();
+
+  }
+
+}
+
+
+/* =========================================================
+   LOGIN EMAIL + PASSWORD
+========================================================= */
+
+loginForm.addEventListener(
+  "submit",
+  async function (event) {
+
+    event.preventDefault();
+
+    loginError.innerHTML = "";
+
+    const email =
+      document
+        .getElementById("loginEmail")
+        .value
+        .trim();
+
+    const password =
+      document
+        .getElementById("loginPassword")
+        .value;
+
+
+    loginBtn.disabled = true;
+
+    loginBtn.textContent =
+      "Đang đăng nhập...";
 
 
     const {
+      data,
       error
-    } = await supabaseClient.auth.signInWithOAuth({
+    } =
+      await supabaseClient.auth
+        .signInWithPassword({
 
-      provider: "google",
+          email: email,
 
-      options: {
-        redirectTo: redirectTo
-      }
+          password: password
 
-    });
+        });
 
 
     if (error) {
 
       console.error(error);
 
-      loginError.textContent =
-        "Không thể đăng nhập: " +
-        error.message;
+      loginError.innerHTML = `
+        <div class="error-box">
+          Đăng nhập thất bại.<br>
+          ${escapeHtml(error.message)}
+        </div>
+      `;
+
+      loginBtn.disabled = false;
+
+      loginBtn.textContent =
+        "Đăng nhập";
+
+      return;
 
     }
+
+
+    showMain(
+      data.user
+    );
+
+
+    loginForm.reset();
+
+    loginBtn.disabled = false;
+
+    loginBtn.textContent =
+      "Đăng nhập";
 
   }
 );
@@ -150,14 +232,15 @@ logoutBtn.addEventListener(
 
     await supabaseClient.auth.signOut();
 
-    window.location.reload();
+    window.location.href =
+      "index.html";
 
   }
 );
 
 
 /* =========================================================
-   CCCD CHỈ CHO PHÉP SỐ
+   CCCD CHỈ NHẬP SỐ
 ========================================================= */
 
 document
@@ -187,11 +270,13 @@ cccdForm.addEventListener(
 
     formMessage.innerHTML = "";
 
+
     const hoTen =
       document
         .getElementById("hoTen")
         .value
         .trim();
+
 
     const cccd =
       document
@@ -199,11 +284,13 @@ cccdForm.addEventListener(
         .value
         .trim();
 
+
     const diaChi =
       document
         .getElementById("diaChi")
         .value
         .trim();
+
 
     const noiCap =
       document
@@ -211,13 +298,12 @@ cccdForm.addEventListener(
         .value
         .trim();
 
+
     const ngayCap =
       document
         .getElementById("ngayCap")
         .value;
 
-
-    /* VALIDATE */
 
     if (!hoTen) {
 
@@ -226,6 +312,7 @@ cccdForm.addEventListener(
       );
 
       return;
+
     }
 
 
@@ -236,6 +323,7 @@ cccdForm.addEventListener(
       );
 
       return;
+
     }
 
 
@@ -247,18 +335,14 @@ cccdForm.addEventListener(
 
     try {
 
-      /* KIỂM TRA USER */
-
       const {
         data: userData
       } =
-        await supabaseClient.auth.getUser();
-
-      const user =
-        userData.user;
+        await supabaseClient.auth
+          .getUser();
 
 
-      if (!user) {
+      if (!userData.user) {
 
         throw new Error(
           "Phiên đăng nhập đã hết. Vui lòng đăng nhập lại."
@@ -266,8 +350,6 @@ cccdForm.addEventListener(
 
       }
 
-
-      /* INSERT */
 
       const {
         error
@@ -298,8 +380,6 @@ cccdForm.addEventListener(
 
       }
 
-
-      /* THÀNH CÔNG */
 
       formMessage.innerHTML = `
         <div class="success-message">
@@ -366,15 +446,30 @@ function escapeHtml(value) {
 
   return String(value)
 
-    .replaceAll("&", "&amp;")
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
 
-    .replaceAll("<", "&lt;")
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
 
-    .replaceAll(">", "&gt;")
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
 
-    .replaceAll('"', "&quot;")
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
 
-    .replaceAll("'", "&#039;");
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 
 }
 
@@ -386,9 +481,14 @@ function escapeHtml(value) {
 supabaseClient.auth.onAuthStateChange(
   function (_event, session) {
 
-    if (session && session.user) {
+    if (
+      session &&
+      session.user
+    ) {
 
-      showMain(session.user);
+      showMain(
+        session.user
+      );
 
     } else {
 
