@@ -1,540 +1,545 @@
 * {
+
   box-sizing: border-box;
+
+}
+
+html,
+
+body {
+
+  margin: 0;
+
+  padding: 0;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+  background: #f4f6f9;
+
+  color: #222;
+
 }
 
 body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f3f5f7;
-  color: #202124;
+
+  min-height: 100vh;
+
 }
 
-button,
-input,
-textarea {
-  font-family: inherit;
-}
+/* =========================================================
 
-button {
-  cursor: pointer;
-}
-
-.hidden {
-  display: none !important;
-}
-
-
-/* ================================
    APP
-================================ */
+
+========================================================= */
 
 .app {
+
+  width: 100%;
+
   min-height: 100vh;
+
 }
 
+/* =========================================================
 
-/* ================================
    TOPBAR
-================================ */
+
+========================================================= */
 
 .topbar {
+
   background: #ffffff;
+
   border-bottom: 1px solid #e5e7eb;
-  padding: 18px 5%;
+
+  padding: 18px 24px;
+
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
-  gap: 15px;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
 }
 
 .topbar h1 {
+
   margin: 0;
-  font-size: 21px;
+
+  font-size: 22px;
+
+  font-weight: 700;
+
+  color: #111827;
+
 }
 
 .topbar p {
+
   margin: 5px 0 0;
+
   color: #6b7280;
+
   font-size: 14px;
+
 }
 
-.header-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
+/* =========================================================
 
-
-/* ================================
    LOGIN
-================================ */
+
+========================================================= */
 
 .login-section {
+
   min-height: calc(100vh - 90px);
+
   display: flex;
+
   justify-content: center;
+
   align-items: center;
-  padding: 20px;
+
+  padding: 25px;
+
 }
 
 .login-card {
-  background: #ffffff;
+
   width: 100%;
-  max-width: 430px;
-  padding: 35px 25px;
-  border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  text-align: center;
+
+  max-width: 420px;
+
+  background: #ffffff;
+
+  border-radius: 14px;
+
+  padding: 30px;
+
+  box-shadow:
+
+    0 5px 25px rgba(0, 0, 0, 0.08);
+
 }
 
 .logo-circle {
-  width: 70px;
-  height: 70px;
+
+  width: 64px;
+
+  height: 64px;
+
+  margin: 0 auto 18px;
+
   border-radius: 50%;
-  margin: 0 auto 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #1a73e8;
+
+  background: #2563eb;
+
   color: white;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
   font-weight: bold;
+
   font-size: 15px;
+
 }
 
 .login-card h2 {
-  margin-bottom: 8px;
+
+  text-align: center;
+
+  margin: 0 0 8px;
+
+  font-size: 22px;
+
 }
 
 .muted {
+
   color: #6b7280;
+
+  text-align: center;
+
+  margin: 0 0 25px;
+
+  font-size: 14px;
+
 }
 
+/* =========================================================
 
-/* ================================
-   GOOGLE BUTTON
-================================ */
-
-.google-btn {
-  margin-top: 20px;
-  width: 100%;
-  min-height: 48px;
-  background: white;
-  border: 1px solid #dadce0;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 600;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  transition: 0.2s;
-}
-
-.google-btn:hover {
-  background: #f8f9fa;
-}
-
-.google-btn span {
-  font-size: 20px;
-  font-weight: bold;
-  color: #4285f4;
-}
-
-
-/* ================================
    MAIN
-================================ */
+
+========================================================= */
 
 main {
-  width: 100%;
-  max-width: 1250px;
-  margin: auto;
-  padding: 25px 18px 50px;
+
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  padding: 25px 16px 50px;
+
 }
 
+/* =========================================================
 
-/* ================================
    USER BOX
-================================ */
+
+========================================================= */
 
 .user-box {
+
   background: #ffffff;
+
   border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 14px 18px;
-  margin-bottom: 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+
+  border-radius: 10px;
+
+  padding: 13px 16px;
+
+  margin-bottom: 16px;
+
+  color: #374151;
+
   font-size: 14px;
+
 }
 
-.manager-link {
-  color: #1a73e8;
-  text-decoration: none;
-  font-weight: 600;
-}
+/* =========================================================
 
-
-/* ================================
    CARD
-================================ */
+
+========================================================= */
 
 .card {
+
   background: #ffffff;
-  border-radius: 15px;
+
+  border-radius: 14px;
+
   padding: 25px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
+
+  box-shadow:
+
+    0 4px 18px rgba(0, 0, 0, 0.06);
+
 }
 
-.card-title {
-  margin-bottom: 20px;
+.input-card {
+
+  max-width: 700px;
+
+  margin: 0 auto;
+
 }
 
-.card-title h2 {
+/* =========================================================
+
+   SECTION TITLE
+
+========================================================= */
+
+.section-title {
+
+  margin-bottom: 25px;
+
+}
+
+.section-title h2 {
+
   margin: 0;
+
   font-size: 20px;
+
 }
 
-.card-title p {
+.section-title p {
+
   margin: 6px 0 0;
+
   color: #6b7280;
+
   font-size: 14px;
+
 }
 
+/* =========================================================
 
-/* ================================
    FORM
-================================ */
+
+========================================================= */
 
 .form-group {
+
   margin-bottom: 18px;
+
 }
 
 .form-group label {
+
   display: block;
+
   margin-bottom: 7px;
+
   font-weight: 600;
+
   font-size: 14px;
+
+  color: #374151;
+
 }
 
-.form-group label span {
-  color: #dc2626;
-}
+.form-group input,
 
-input,
-textarea {
+.form-group textarea {
+
   width: 100%;
+
+  padding: 12px 13px;
+
   border: 1px solid #d1d5db;
+
   border-radius: 8px;
-  padding: 12px;
+
+  background: #ffffff;
+
   font-size: 15px;
+
   outline: none;
-  background: white;
+
+  transition: border 0.2s;
+
 }
 
-input:focus,
-textarea:focus {
-  border-color: #1a73e8;
-  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+.form-group input:focus,
+
+.form-group textarea:focus {
+
+  border-color: #2563eb;
+
 }
 
-textarea {
+.form-group textarea {
+
   resize: vertical;
+
 }
 
+.field-note {
 
-/* ================================
+  display: block;
+
+  margin-top: 5px;
+
+  color: #6b7280;
+
+  font-size: 12px;
+
+}
+
+/* =========================================================
+
    BUTTON
-================================ */
+
+========================================================= */
 
 .btn {
+
   border: none;
+
   border-radius: 8px;
-  padding: 11px 16px;
+
+  padding: 11px 18px;
+
   font-size: 14px;
+
   font-weight: 600;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+
+}
+
+.btn:disabled {
+
+  opacity: 0.6;
+
+  cursor: not-allowed;
+
 }
 
 .btn-primary {
-  background: #1a73e8;
+
+  background: #2563eb;
+
   color: white;
+
 }
 
 .btn-primary:hover {
-  background: #155fc0;
+
+  background: #1d4ed8;
+
 }
 
 .btn-secondary {
-  background: #eef1f5;
-  color: #202124;
-}
 
-.btn-success {
-  background: #188038;
-  color: white;
+  background: #e5e7eb;
+
+  color: #374151;
+
 }
 
 .btn-danger {
-  background: #d93025;
+
+  background: #dc2626;
+
   color: white;
+
 }
 
-.btn.small {
-  padding: 9px 12px;
+.btn-success {
+
+  background: #16a34a;
+
+  color: white;
+
+}
+
+.full {
+
+  width: 100%;
+
+}
+
+.small {
+
+  padding: 8px 13px;
+
   font-size: 13px;
+
 }
 
-.btn.full {
-  width: 100%;
-  min-height: 48px;
-}
+/* =========================================================
 
-
-/* ================================
-   TOOLBAR
-================================ */
-
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-.search-box {
-  flex: 1;
-  min-width: 240px;
-}
-
-.toolbar-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-
-/* ================================
-   TABLE
-================================ */
-
-.table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 950px;
-}
-
-th {
-  background: #f8f9fa;
-  text-align: left;
-  font-size: 13px;
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
-  white-space: nowrap;
-}
-
-td {
-  padding: 12px;
-  border-bottom: 1px solid #eeeeee;
-  font-size: 14px;
-  vertical-align: top;
-}
-
-tr:hover td {
-  background: #fafafa;
-}
-
-.action-buttons {
-  display: flex;
-  gap: 6px;
-  white-space: nowrap;
-}
-
-.action-btn {
-  border: none;
-  border-radius: 6px;
-  padding: 7px 9px;
-  font-size: 12px;
-}
-
-.edit-btn {
-  background: #e8f0fe;
-  color: #1967d2;
-}
-
-.delete-btn {
-  background: #fce8e6;
-  color: #c5221f;
-}
-
-
-/* ================================
-   PAGINATION
-================================ */
-
-.pagination {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-}
-
-#pageInfo {
-  font-weight: 600;
-  font-size: 14px;
-}
-
-
-/* ================================
    MESSAGE
-================================ */
 
-.error-message {
-  color: #d93025;
-  margin-top: 15px;
-  font-size: 14px;
-}
+========================================================= */
 
 .success-message {
-  color: #188038;
-  background: #e6f4ea;
-  padding: 11px;
-  border-radius: 8px;
+
   margin-top: 15px;
+
+  padding: 12px 14px;
+
+  border-radius: 8px;
+
+  background: #dcfce7;
+
+  color: #166534;
+
+  font-size: 14px;
+
 }
 
 .error-box {
-  color: #c5221f;
-  background: #fce8e6;
-  padding: 11px;
-  border-radius: 8px;
+
   margin-top: 15px;
+
+  padding: 12px 14px;
+
+  border-radius: 8px;
+
+  background: #fee2e2;
+
+  color: #991b1b;
+
+  font-size: 14px;
+
 }
 
-.empty-message {
-  text-align: center;
-  padding: 35px 10px;
-  color: #6b7280;
+/* =========================================================
+
+   HIDDEN
+
+========================================================= */
+
+.hidden {
+
+  display: none !important;
+
 }
 
+/* =========================================================
 
-/* ================================
-   MODAL
-================================ */
-
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  z-index: 999;
-}
-
-.modal-box {
-  width: 100%;
-  max-width: 520px;
-  background: white;
-  border-radius: 15px;
-  padding: 25px;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.modal-header h2 {
-  margin: 0;
-  font-size: 20px;
-}
-
-.modal-close {
-  border: none;
-  background: transparent;
-  font-size: 28px;
-  cursor: pointer;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-top: 20px;
-}
-
-
-/* ================================
    MOBILE
-================================ */
 
-@media (max-width: 700px) {
+========================================================= */
+
+@media (max-width: 600px) {
 
   .topbar {
+
     padding: 15px;
+
     align-items: flex-start;
+
   }
 
   .topbar h1 {
-    font-size: 17px;
+
+    font-size: 18px;
+
   }
 
   .topbar p {
+
     font-size: 12px;
+
   }
 
-  .header-actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
+  .login-section {
 
-  main {
-    padding: 15px 10px 40px;
-  }
+    padding: 15px;
 
-  .card {
-    padding: 17px;
-    border-radius: 12px;
-  }
-
-  .toolbar {
-    flex-direction: column;
-  }
-
-  .toolbar-buttons {
-    width: 100%;
-  }
-
-  .toolbar-buttons .btn {
-    flex: 1;
-  }
-
-  .user-box {
-    font-size: 13px;
   }
 
   .login-card {
-    padding: 30px 20px;
+
+    padding: 22px 18px;
+
+  }
+
+  main {
+
+    padding: 15px 10px 35px;
+
+  }
+
+  .card {
+
+    padding: 18px 15px;
+
+  }
+
+  .input-card {
+
+    border-radius: 12px;
+
+  }
+
+  .user-box {
+
+    font-size: 13px;
+
   }
 
 }
