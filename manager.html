@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Quản lý CCCD</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- SheetJS -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+  <header class="topbar">
+
+    <div>
+
+      <h1>QUẢN LÝ CCCD</h1>
+
+      <p>Danh sách thông tin CCCD</p>
+
+    </div>
+
+
+    <div class="header-actions">
+
+      <a href="index.html" class="btn btn-secondary small">
+        + Nhập CCCD
+      </a>
+
+      <button
+        id="logoutBtn"
+        class="btn btn-danger small"
+      >
+        Đăng xuất
+      </button>
+
+    </div>
+
+  </header>
+
+
+  <!-- LOGIN -->
+  <section id="loginSection" class="login-section">
+
+    <div class="login-card">
+
+      <div class="logo-circle">
+        CCCD
+      </div>
+
+      <h2>Đăng nhập hệ thống</h2>
+
+      <p class="muted">
+        Đăng nhập bằng tài khoản Google/Gmail
+      </p>
+
+      <button
+        id="googleLoginBtn"
+        class="google-btn"
+      >
+        <span>G</span>
+        Đăng nhập bằng Google
+      </button>
+
+      <div id="loginError" class="error-message"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- MANAGER -->
+  <main id="mainSection" class="hidden">
+
+    <div class="user-box">
+
+      <div>
+
+        <strong>Tài khoản:</strong>
+
+        <span id="userEmail">
+          ---
+        </span>
+
+      </div>
+
+      <div>
+        <strong>Tổng:</strong>
+        <span id="totalCount">0</span>
+        hồ sơ
+      </div>
+
+    </div>
+
+
+    <!-- TOOLBAR -->
+
+    <section class="card">
+
+      <div class="toolbar">
+
+        <div class="search-box">
+
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Tìm Họ tên hoặc CCCD..."
+          >
+
+        </div>
+
+
+        <div class="toolbar-buttons">
+
+          <button
+            id="refreshBtn"
+            class="btn btn-secondary"
+          >
+            ↻ Làm mới
+          </button>
+
+
+          <button
+            id="exportBtn"
+            class="btn btn-success"
+          >
+            ↓ Xuất Excel
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div id="tableMessage"></div>
+
+
+      <!-- TABLE -->
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>Họ tên</th>
+
+              <th>CCCD</th>
+
+              <th>Địa chỉ</th>
+
+              <th>Nơi cấp</th>
+
+              <th>Ngày cấp</th>
+
+              <th>Thao tác</th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="dataBody">
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div
+        id="emptyMessage"
+        class="empty-message hidden"
+      >
+        Chưa có dữ liệu.
+      </div>
+
+
+      <!-- PAGINATION -->
+
+      <div class="pagination">
+
+        <button
+          id="prevBtn"
+          class="btn btn-secondary small"
+        >
+          ← Trước
+        </button>
+
+
+        <span id="pageInfo">
+          Trang 1
+        </span>
+
+
+        <button
+          id="nextBtn"
+          class="btn btn-secondary small"
+        >
+          Sau →
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<!-- EDIT MODAL -->
+
+<div
+  id="editModal"
+  class="modal hidden"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-header">
+
+      <h2>Sửa thông tin CCCD</h2>
+
+      <button
+        id="closeModalBtn"
+        class="modal-close"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <form id="editForm">
+
+      <input
+        type="hidden"
+        id="editId"
+      >
+
+
+      <div class="form-group">
+
+        <label>
+          Họ và tên
+        </label>
+
+        <input
+          type="text"
+          id="editHoTen"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Số CCCD
+        </label>
+
+        <input
+          type="text"
+          id="editCccd"
+          maxlength="12"
+          inputmode="numeric"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Địa chỉ
+        </label>
+
+        <textarea
+          id="editDiaChi"
+          rows="3"
+        ></textarea>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Nơi cấp
+        </label>
+
+        <input
+          type="text"
+          id="editNoiCap"
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>
+          Ngày cấp
+        </label>
+
+        <input
+          type="date"
+          id="editNgayCap"
+        >
+
+      </div>
+
+
+      <div class="modal-actions">
+
+        <button
+          type="button"
+          id="cancelEditBtn"
+          class="btn btn-secondary"
+        >
+          Hủy
+        </button>
+
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          Lưu thay đổi
+        </button>
+
+      </div>
+
+    </form>
+
+    <div id="editMessage"></div>
+
+  </div>
+
+</div>
+
+
+<script src="manager.js"></script>
+
+</body>
+</html>
