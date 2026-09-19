@@ -4,8 +4,8 @@
    SUPABASE
 ========================================================= */
 
-const SUPABASE_URL = "DAN_SUPABASE_URL_CUA_BAN";
-const SUPABASE_ANON_KEY = "DAN_SUPABASE_ANON_KEY_CUA_BAN";
+const SUPABASE_URL = "https://hfvcvxrljvbqqifgbkac.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_85chCDmVUX_rKw8f3FKfLA_zMWP5__-";
 
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
