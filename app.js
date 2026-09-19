@@ -1,5 +1,6 @@
 "use strict";
 
+
 /* =========================================================
    SUPABASE
 ========================================================= */
@@ -22,27 +23,6 @@ const supabaseClient =
    ELEMENTS
 ========================================================= */
 
-const loginSection =
-  document.getElementById("loginSection");
-
-const mainSection =
-  document.getElementById("mainSection");
-
-const loginForm =
-  document.getElementById("loginForm");
-
-const loginBtn =
-  document.getElementById("loginBtn");
-
-const loginError =
-  document.getElementById("loginError");
-
-const logoutBtn =
-  document.getElementById("logoutBtn");
-
-const userEmail =
-  document.getElementById("userEmail");
-
 const cccdForm =
   document.getElementById("cccdForm");
 
@@ -57,182 +37,12 @@ const cccdInput =
 
 
 /* =========================================================
-   SHOW LOGIN
-========================================================= */
-
-function showLogin() {
-
-  loginSection.classList.remove("hidden");
-
-  mainSection.classList.add("hidden");
-
-  logoutBtn.classList.add("hidden");
-
-}
-
-
-/* =========================================================
-   SHOW MAIN
-========================================================= */
-
-function showMain(user) {
-
-  loginSection.classList.add("hidden");
-
-  mainSection.classList.remove("hidden");
-
-  logoutBtn.classList.remove("hidden");
-
-  userEmail.textContent =
-    user.email || "---";
-
-}
-
-
-/* =========================================================
-   CHECK SESSION
-========================================================= */
-
-async function checkUser() {
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient.auth.getSession();
-
-
-  if (error) {
-
-    console.error(error);
-
-    showLogin();
-
-    return;
-
-  }
-
-
-  if (
-    data.session &&
-    data.session.user
-  ) {
-
-    showMain(
-      data.session.user
-    );
-
-  } else {
-
-    showLogin();
-
-  }
-
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-loginForm.addEventListener(
-  "submit",
-  async function(event) {
-
-    event.preventDefault();
-
-    loginError.innerHTML = "";
-
-    const email =
-      document
-        .getElementById("loginEmail")
-        .value
-        .trim();
-
-    const password =
-      document
-        .getElementById("loginPassword")
-        .value;
-
-
-    loginBtn.disabled = true;
-
-    loginBtn.textContent =
-      "Đang đăng nhập...";
-
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.auth
-        .signInWithPassword({
-
-          email: email,
-
-          password: password
-
-        });
-
-
-    if (error) {
-
-      console.error(error);
-
-      loginError.innerHTML = `
-        <div class="error-box">
-          Đăng nhập thất bại.<br>
-          ${escapeHtml(error.message)}
-        </div>
-      `;
-
-      loginBtn.disabled = false;
-
-      loginBtn.textContent =
-        "Đăng nhập";
-
-      return;
-
-    }
-
-
-    loginForm.reset();
-
-    loginBtn.disabled = false;
-
-    loginBtn.textContent =
-      "Đăng nhập";
-
-
-    showMain(data.user);
-
-  }
-);
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-logoutBtn.addEventListener(
-  "click",
-  async function() {
-
-    await supabaseClient.auth.signOut();
-
-    window.location.reload();
-
-  }
-);
-
-
-/* =========================================================
-   CCCD CHỈ CHO NHẬP SỐ
+   CCCD CHỈ NHẬP SỐ
 ========================================================= */
 
 cccdInput.addEventListener(
   "input",
-  function() {
+  function () {
 
     this.value =
       this.value
@@ -244,17 +54,20 @@ cccdInput.addEventListener(
 
 
 /* =========================================================
-   SUBMIT CCCD
+   SUBMIT
 ========================================================= */
 
 cccdForm.addEventListener(
   "submit",
-  async function(event) {
+  async function (event) {
 
     event.preventDefault();
 
+
     formMessage.innerHTML = "";
 
+
+    /* LẤY DỮ LIỆU */
 
     const hoTen =
       document
@@ -290,7 +103,9 @@ cccdForm.addEventListener(
         .value;
 
 
-    /* KIỂM TRA HỌ TÊN */
+    /* =====================================================
+       KIỂM TRA
+    ===================================================== */
 
     if (!hoTen) {
 
@@ -303,12 +118,10 @@ cccdForm.addEventListener(
     }
 
 
-    /* KIỂM TRA CCCD */
-
     if (!/^\d{12}$/.test(cccd)) {
 
       showError(
-        "Số CCCD phải gồm đúng 12 số."
+        "CCCD phải gồm đúng 12 số."
       );
 
       return;
@@ -316,7 +129,9 @@ cccdForm.addEventListener(
     }
 
 
-    /* DISABLE BUTTON */
+    /* =====================================================
+       DISABLE BUTTON
+    ===================================================== */
 
     saveBtn.disabled = true;
 
@@ -324,7 +139,9 @@ cccdForm.addEventListener(
       "Đang lưu...";
 
 
-    /* INSERT SUPABASE */
+    /* =====================================================
+       INSERT
+    ===================================================== */
 
     const {
       error
@@ -349,7 +166,9 @@ cccdForm.addEventListener(
         });
 
 
-    /* ERROR */
+    /* =====================================================
+       ERROR
+    ===================================================== */
 
     if (error) {
 
@@ -370,14 +189,16 @@ cccdForm.addEventListener(
     }
 
 
-    /* SUCCESS */
+    /* =====================================================
+       SUCCESS
+    ===================================================== */
 
     showSuccess(
-      "Đã lưu thông tin CCCD thành công."
+      "Đã lưu thông tin CCCD thành công!"
     );
 
 
-    /* RESET FORM */
+    /* XÓA FORM */
 
     cccdForm.reset();
 
@@ -385,7 +206,7 @@ cccdForm.addEventListener(
     /* ĐƯA CON TRỎ VỀ HỌ TÊN */
 
     setTimeout(
-      function() {
+      function () {
 
         document
           .getElementById("hoTen")
@@ -406,30 +227,38 @@ cccdForm.addEventListener(
 
 
 /* =========================================================
-   SUCCESS
+   SUCCESS MESSAGE
 ========================================================= */
 
 function showSuccess(message) {
 
   formMessage.innerHTML = `
+
     <div class="success-message">
+
       ✓ ${escapeHtml(message)}
+
     </div>
+
   `;
 
 }
 
 
 /* =========================================================
-   ERROR
+   ERROR MESSAGE
 ========================================================= */
 
 function showError(message) {
 
   formMessage.innerHTML = `
+
     <div class="error-box">
+
       ${escapeHtml(message)}
+
     </div>
+
   `;
 
 }
@@ -443,47 +272,29 @@ function escapeHtml(value) {
 
   return String(value)
 
-    .replaceAll("&", "&amp;")
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
 
-    .replaceAll("<", "&lt;")
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
 
-    .replaceAll(">", "&gt;")
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
 
-    .replaceAll('"', "&quot;")
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
 
-    .replaceAll("'", "&#039;");
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 
 }
-
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
-supabaseClient.auth.onAuthStateChange(
-  function(_event, session) {
-
-    if (
-      session &&
-      session.user
-    ) {
-
-      showMain(
-        session.user
-      );
-
-    } else {
-
-      showLogin();
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   START
-========================================================= */
-
-checkUser();
