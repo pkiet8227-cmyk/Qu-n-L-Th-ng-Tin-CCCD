@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,18 +17,21 @@
 <div class="app">
 
   <header class="topbar">
+
     <div>
       <h1>QUẢN LÝ CCCD</h1>
       <p>Nhập thông tin giấy tờ</p>
     </div>
 
-    <button id="logoutBtn" class="btn btn-danger small">
+    <button id="logoutBtn" class="btn btn-danger small hidden">
       Đăng xuất
     </button>
+
   </header>
 
 
-  <!-- LOGIN -->
+  <!-- ================= LOGIN ================= -->
+
   <section id="loginSection" class="login-section">
 
     <div class="login-card">
@@ -39,50 +43,109 @@
       <h2>Đăng nhập hệ thống</h2>
 
       <p class="muted">
-        Đăng nhập bằng tài khoản Google/Gmail
+        Sử dụng Gmail và mật khẩu được cấp
       </p>
 
-      <button id="googleLoginBtn" class="google-btn">
-        <span>G</span>
-        Đăng nhập bằng Google
-      </button>
 
-      <div id="loginError" class="error-message"></div>
+      <form id="loginForm">
+
+        <div class="form-group">
+
+          <label for="loginEmail">
+            Gmail
+          </label>
+
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="example@gmail.com"
+            autocomplete="email"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="loginPassword">
+            Mật khẩu
+          </label>
+
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Nhập mật khẩu"
+            autocomplete="current-password"
+            required
+          >
+
+        </div>
+
+
+        <button
+          type="submit"
+          id="loginBtn"
+          class="btn btn-primary full"
+        >
+          Đăng nhập
+        </button>
+
+      </form>
+
+
+      <div id="loginError"></div>
 
     </div>
 
   </section>
 
 
-  <!-- MAIN -->
+  <!-- ================= MAIN ================= -->
+
   <main id="mainSection" class="hidden">
 
     <div class="user-box">
+
       <div>
         <strong>Tài khoản:</strong>
         <span id="userEmail">---</span>
       </div>
 
-      <a href="manager.html" class="manager-link">
+      <a
+        href="manager.html"
+        class="manager-link"
+      >
         Quản lý dữ liệu →
       </a>
+
     </div>
 
 
-    <!-- FORM -->
+    <!-- ================= FORM ================= -->
+
     <section class="card">
 
       <div class="card-title">
+
         <div>
+
           <h2>Nhập thông tin CCCD</h2>
-          <p>Vui lòng nhập chính xác thông tin</p>
+
+          <p>
+            Vui lòng nhập chính xác thông tin
+          </p>
+
         </div>
+
       </div>
 
 
       <form id="cccdForm">
 
+
         <div class="form-group">
+
           <label for="hoTen">
             Họ và tên <span>*</span>
           </label>
@@ -91,13 +154,14 @@
             type="text"
             id="hoTen"
             placeholder="Nhập họ và tên"
-            autocomplete="name"
             required
           >
+
         </div>
 
 
         <div class="form-group">
+
           <label for="cccd">
             Số CCCD <span>*</span>
           </label>
@@ -110,10 +174,12 @@
             maxlength="12"
             required
           >
+
         </div>
 
 
         <div class="form-group">
+
           <label for="diaChi">
             Địa chỉ
           </label>
@@ -123,10 +189,12 @@
             rows="3"
             placeholder="Nhập địa chỉ"
           ></textarea>
+
         </div>
 
 
         <div class="form-group">
+
           <label for="noiCap">
             Nơi cấp CCCD
           </label>
@@ -134,12 +202,14 @@
           <input
             type="text"
             id="noiCap"
-            placeholder="Ví dụ: Cục Cảnh sát QLHC về TTXH"
+            placeholder="Nhập nơi cấp CCCD"
           >
+
         </div>
 
 
         <div class="form-group">
+
           <label for="ngayCap">
             Ngày cấp
           </label>
@@ -148,6 +218,7 @@
             type="date"
             id="ngayCap"
           >
+
         </div>
 
 
@@ -160,6 +231,7 @@
         </button>
 
       </form>
+
 
       <div id="formMessage"></div>
 
