@@ -14,8 +14,10 @@
 
   <link rel="stylesheet" href="style.css">
 
+  <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+  <!-- EXCEL -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
 </head>
@@ -26,7 +28,9 @@
 <div class="app">
 
 
-  <!-- ================= TOPBAR ================= -->
+  <!-- =====================================================
+       HEADER
+  ====================================================== -->
 
   <header class="topbar">
 
@@ -41,21 +45,23 @@
     </div>
 
 
-    <d<div class="header-actions">
+    <div class="header-actions">
 
-  <button
-    id="logoutBtn"
-    class="btn btn-danger small hidden"
-  >
-    Đăng xuất
-  </button>
+      <button
+        id="logoutBtn"
+        class="btn btn-danger small hidden"
+      >
+        Đăng xuất
+      </button>
 
-</div>
+    </div>
 
   </header>
 
 
-  <!-- ================= LOGIN ================= -->
+  <!-- =====================================================
+       LOGIN
+  ====================================================== -->
 
   <section
     id="loginSection"
@@ -68,7 +74,11 @@
         CCCD
       </div>
 
-      <h2>Đăng nhập hệ thống</h2>
+
+      <h2>
+        Đăng nhập quản lý
+      </h2>
+
 
       <p class="muted">
         Sử dụng Gmail và mật khẩu được cấp
@@ -76,6 +86,9 @@
 
 
       <form id="loginForm">
+
+
+        <!-- GMAIL -->
 
         <div class="form-group">
 
@@ -94,6 +107,8 @@
         </div>
 
 
+        <!-- PASSWORD -->
+
         <div class="form-group">
 
           <label for="loginPassword">
@@ -110,6 +125,8 @@
 
         </div>
 
+
+        <!-- LOGIN -->
 
         <button
           type="submit"
@@ -129,12 +146,17 @@
   </section>
 
 
-  <!-- ================= MANAGER ================= -->
+  <!-- =====================================================
+       MAIN MANAGER
+  ====================================================== -->
 
   <main
     id="mainSection"
     class="hidden"
   >
+
+
+    <!-- USER INFO -->
 
     <div class="user-box">
 
@@ -164,12 +186,17 @@
     </div>
 
 
+    <!-- ===================================================
+         DATA
+    ==================================================== -->
+
     <section class="card">
 
 
       <!-- TOOLBAR -->
 
       <div class="toolbar">
+
 
         <div class="search-box">
 
@@ -241,6 +268,8 @@
       </div>
 
 
+      <!-- EMPTY -->
+
       <div
         id="emptyMessage"
         class="empty-message hidden"
@@ -283,7 +312,9 @@
 </div>
 
 
-<!-- ================= EDIT MODAL ================= -->
+<!-- =======================================================
+     EDIT MODAL
+======================================================== -->
 
 <div
   id="editModal"
@@ -292,9 +323,13 @@
 
   <div class="modal-box">
 
+
     <div class="modal-header">
 
-      <h2>Sửa thông tin CCCD</h2>
+      <h2>
+        Sửa thông tin CCCD
+      </h2>
+
 
       <button
         id="closeModalBtn"
@@ -308,15 +343,10 @@
 
     <form id="editForm">
 
-      <input
-        type="hidden"
-        id="editId"
-      >
-
 
       <div class="form-group">
 
-        <label>
+        <label for="editHoTen">
           Họ và tên
         </label>
 
@@ -331,7 +361,7 @@
 
       <div class="form-group">
 
-        <label>
+        <label for="editCccd">
           Số CCCD
         </label>
 
@@ -348,7 +378,7 @@
 
       <div class="form-group">
 
-        <label>
+        <label for="editDiaChi">
           Địa chỉ
         </label>
 
@@ -362,7 +392,7 @@
 
       <div class="form-group">
 
-        <label>
+        <label for="editNoiCap">
           Nơi cấp
         </label>
 
@@ -376,7 +406,7 @@
 
       <div class="form-group">
 
-        <label>
+        <label for="editNgayCap">
           Ngày cấp
         </label>
 
@@ -418,7 +448,10 @@
 </div>
 
 
+<!-- MANAGER JS -->
+
 <script src="manager.js"></script>
 
 </body>
+
 </html>
