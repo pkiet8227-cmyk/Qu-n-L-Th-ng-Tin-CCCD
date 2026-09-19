@@ -52,6 +52,9 @@ const saveBtn =
 const formMessage =
   document.getElementById("formMessage");
 
+const cccdInput =
+  document.getElementById("cccd");
+
 
 /* =========================================================
    SHOW LOGIN
@@ -59,17 +62,11 @@ const formMessage =
 
 function showLogin() {
 
-  loginSection.classList.remove(
-    "hidden"
-  );
+  loginSection.classList.remove("hidden");
 
-  mainSection.classList.add(
-    "hidden"
-  );
+  mainSection.classList.add("hidden");
 
-  logoutBtn.classList.add(
-    "hidden"
-  );
+  logoutBtn.classList.add("hidden");
 
 }
 
@@ -80,17 +77,11 @@ function showLogin() {
 
 function showMain(user) {
 
-  loginSection.classList.add(
-    "hidden"
-  );
+  loginSection.classList.add("hidden");
 
-  mainSection.classList.remove(
-    "hidden"
-  );
+  mainSection.classList.remove("hidden");
 
-  logoutBtn.classList.remove(
-    "hidden"
-  );
+  logoutBtn.classList.remove("hidden");
 
   userEmail.textContent =
     user.email || "---";
@@ -99,7 +90,7 @@ function showMain(user) {
 
 
 /* =========================================================
-   CHECK LOGIN
+   CHECK SESSION
 ========================================================= */
 
 async function checkUser() {
@@ -108,8 +99,7 @@ async function checkUser() {
     data,
     error
   } =
-    await supabaseClient.auth
-      .getSession();
+    await supabaseClient.auth.getSession();
 
 
   if (error) {
@@ -142,12 +132,12 @@ async function checkUser() {
 
 
 /* =========================================================
-   LOGIN EMAIL + PASSWORD
+   LOGIN
 ========================================================= */
 
 loginForm.addEventListener(
   "submit",
-  async function (event) {
+  async function(event) {
 
     event.preventDefault();
 
@@ -206,17 +196,15 @@ loginForm.addEventListener(
     }
 
 
-    showMain(
-      data.user
-    );
-
-
     loginForm.reset();
 
     loginBtn.disabled = false;
 
     loginBtn.textContent =
       "Đăng nhập";
+
+
+    showMain(data.user);
 
   }
 );
@@ -228,43 +216,40 @@ loginForm.addEventListener(
 
 logoutBtn.addEventListener(
   "click",
-  async function () {
+  async function() {
 
     await supabaseClient.auth.signOut();
 
-    window.location.href =
-      "index.html";
+    window.location.reload();
 
   }
 );
 
 
 /* =========================================================
-   CCCD CHỈ NHẬP SỐ
+   CCCD CHỈ CHO NHẬP SỐ
 ========================================================= */
 
-document
-  .getElementById("cccd")
-  .addEventListener(
-    "input",
-    function () {
+cccdInput.addEventListener(
+  "input",
+  function() {
 
-      this.value =
-        this.value
-          .replace(/\D/g, "")
-          .slice(0, 12);
+    this.value =
+      this.value
+        .replace(/\D/g, "")
+        .slice(0, 12);
 
-    }
-  );
+  }
+);
 
 
 /* =========================================================
-   LƯU CCCD
+   SUBMIT CCCD
 ========================================================= */
 
 cccdForm.addEventListener(
   "submit",
-  async function (event) {
+  async function(event) {
 
     event.preventDefault();
 
@@ -305,9 +290,11 @@ cccdForm.addEventListener(
         .value;
 
 
+    /* KIỂM TRA HỌ TÊN */
+
     if (!hoTen) {
 
-      showFormError(
+      showError(
         "Vui lòng nhập họ và tên."
       );
 
@@ -316,10 +303,12 @@ cccdForm.addEventListener(
     }
 
 
+    /* KIỂM TRA CCCD */
+
     if (!/^\d{12}$/.test(cccd)) {
 
-      showFormError(
-        "Số CCCD phải gồm đúng 12 chữ số."
+      showError(
+        "Số CCCD phải gồm đúng 12 số."
       );
 
       return;
@@ -327,107 +316,115 @@ cccdForm.addEventListener(
     }
 
 
+    /* DISABLE BUTTON */
+
     saveBtn.disabled = true;
 
     saveBtn.textContent =
       "Đang lưu...";
 
 
-    try {
+    /* INSERT SUPABASE */
 
-      const {
-        data: userData
-      } =
-        await supabaseClient.auth
-          .getUser();
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("cccd_data")
+        .insert({
 
+          ho_ten: hoTen,
 
-      if (!userData.user) {
+          cccd: cccd,
 
-        throw new Error(
-          "Phiên đăng nhập đã hết. Vui lòng đăng nhập lại."
-        );
+          dia_chi:
+            diaChi || null,
 
-      }
+          noi_cap:
+            noiCap || null,
 
+          ngay_cap:
+            ngayCap || null
 
-      const {
-        error
-      } =
-        await supabaseClient
-          .from("cccd_data")
-          .insert({
-
-            ho_ten: hoTen,
-
-            cccd: cccd,
-
-            dia_chi:
-              diaChi || null,
-
-            noi_cap:
-              noiCap || null,
-
-            ngay_cap:
-              ngayCap || null
-
-          });
+        });
 
 
-      if (error) {
+    /* ERROR */
 
-        throw error;
-
-      }
-
-
-      formMessage.innerHTML = `
-        <div class="success-message">
-          ✓ Đã lưu thông tin CCCD thành công.
-        </div>
-      `;
-
-
-      cccdForm.reset();
-
-
-      setTimeout(
-        function () {
-
-          formMessage.innerHTML = "";
-
-        },
-        3000
-      );
-
-
-    } catch (error) {
+    if (error) {
 
       console.error(error);
 
-      showFormError(
-        "Lỗi khi lưu dữ liệu: " +
+      showError(
+        "Không thể lưu dữ liệu: " +
         error.message
       );
-
-    } finally {
 
       saveBtn.disabled = false;
 
       saveBtn.textContent =
         "Lưu thông tin";
 
+      return;
+
     }
+
+
+    /* SUCCESS */
+
+    showSuccess(
+      "Đã lưu thông tin CCCD thành công."
+    );
+
+
+    /* RESET FORM */
+
+    cccdForm.reset();
+
+
+    /* ĐƯA CON TRỎ VỀ HỌ TÊN */
+
+    setTimeout(
+      function() {
+
+        document
+          .getElementById("hoTen")
+          .focus();
+
+      },
+      100
+    );
+
+
+    saveBtn.disabled = false;
+
+    saveBtn.textContent =
+      "Lưu thông tin";
 
   }
 );
 
 
 /* =========================================================
+   SUCCESS
+========================================================= */
+
+function showSuccess(message) {
+
+  formMessage.innerHTML = `
+    <div class="success-message">
+      ✓ ${escapeHtml(message)}
+    </div>
+  `;
+
+}
+
+
+/* =========================================================
    ERROR
 ========================================================= */
 
-function showFormError(message) {
+function showError(message) {
 
   formMessage.innerHTML = `
     <div class="error-box">
@@ -446,30 +443,15 @@ function escapeHtml(value) {
 
   return String(value)
 
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
+    .replaceAll("&", "&amp;")
 
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
+    .replaceAll("<", "&lt;")
 
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
+    .replaceAll(">", "&gt;")
 
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
+    .replaceAll('"', "&quot;")
 
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+    .replaceAll("'", "&#039;");
 
 }
 
@@ -479,7 +461,7 @@ function escapeHtml(value) {
 ========================================================= */
 
 supabaseClient.auth.onAuthStateChange(
-  function (_event, session) {
+  function(_event, session) {
 
     if (
       session &&
