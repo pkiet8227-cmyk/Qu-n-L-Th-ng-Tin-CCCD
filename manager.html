@@ -16,7 +16,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- SheetJS -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
 </head>
@@ -26,26 +25,34 @@
 
 <div class="app">
 
+
+  <!-- ================= TOPBAR ================= -->
+
   <header class="topbar">
 
     <div>
 
       <h1>QUẢN LÝ CCCD</h1>
 
-      <p>Danh sách thông tin CCCD</p>
+      <p>
+        Danh sách thông tin CCCD
+      </p>
 
     </div>
 
 
     <div class="header-actions">
 
-      <a href="index.html" class="btn btn-secondary small">
+      <a
+        href="index.html"
+        class="btn btn-secondary small"
+      >
         + Nhập CCCD
       </a>
 
       <button
         id="logoutBtn"
-        class="btn btn-danger small"
+        class="btn btn-danger small hidden"
       >
         Đăng xuất
       </button>
@@ -55,8 +62,12 @@
   </header>
 
 
-  <!-- LOGIN -->
-  <section id="loginSection" class="login-section">
+  <!-- ================= LOGIN ================= -->
+
+  <section
+    id="loginSection"
+    class="login-section"
+  >
 
     <div class="login-card">
 
@@ -67,26 +78,70 @@
       <h2>Đăng nhập hệ thống</h2>
 
       <p class="muted">
-        Đăng nhập bằng tài khoản Google/Gmail
+        Sử dụng Gmail và mật khẩu được cấp
       </p>
 
-      <button
-        id="googleLoginBtn"
-        class="google-btn"
-      >
-        <span>G</span>
-        Đăng nhập bằng Google
-      </button>
 
-      <div id="loginError" class="error-message"></div>
+      <form id="loginForm">
+
+        <div class="form-group">
+
+          <label for="loginEmail">
+            Gmail
+          </label>
+
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="example@gmail.com"
+            autocomplete="email"
+            required
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="loginPassword">
+            Mật khẩu
+          </label>
+
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Nhập mật khẩu"
+            autocomplete="current-password"
+            required
+          >
+
+        </div>
+
+
+        <button
+          type="submit"
+          id="loginBtn"
+          class="btn btn-primary full"
+        >
+          Đăng nhập
+        </button>
+
+      </form>
+
+
+      <div id="loginError"></div>
 
     </div>
 
   </section>
 
 
-  <!-- MANAGER -->
-  <main id="mainSection" class="hidden">
+  <!-- ================= MANAGER ================= -->
+
+  <main
+    id="mainSection"
+    class="hidden"
+  >
 
     <div class="user-box">
 
@@ -100,18 +155,26 @@
 
       </div>
 
+
       <div>
+
         <strong>Tổng:</strong>
-        <span id="totalCount">0</span>
+
+        <span id="totalCount">
+          0
+        </span>
+
         hồ sơ
+
       </div>
 
     </div>
 
 
-    <!-- TOOLBAR -->
-
     <section class="card">
+
+
+      <!-- TOOLBAR -->
 
       <div class="toolbar">
 
@@ -178,9 +241,7 @@
           </thead>
 
 
-          <tbody id="dataBody">
-
-          </tbody>
+          <tbody id="dataBody"></tbody>
 
         </table>
 
@@ -221,6 +282,7 @@
 
       </div>
 
+
     </section>
 
   </main>
@@ -228,7 +290,7 @@
 </div>
 
 
-<!-- EDIT MODAL -->
+<!-- ================= EDIT MODAL ================= -->
 
 <div
   id="editModal"
@@ -354,6 +416,7 @@
       </div>
 
     </form>
+
 
     <div id="editMessage"></div>
 
