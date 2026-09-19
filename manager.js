@@ -1,5 +1,6 @@
 "use strict";
 
+
 /* =========================================================
    SUPABASE
 ========================================================= */
@@ -113,17 +114,11 @@ const editMessage =
 
 function showLogin() {
 
-  loginSection.classList.remove(
-    "hidden"
-  );
+  loginSection.classList.remove("hidden");
 
-  mainSection.classList.add(
-    "hidden"
-  );
+  mainSection.classList.add("hidden");
 
-  logoutBtn.classList.add(
-    "hidden"
-  );
+  logoutBtn.classList.add("hidden");
 
 }
 
@@ -134,17 +129,11 @@ function showLogin() {
 
 function showMain(user) {
 
-  loginSection.classList.add(
-    "hidden"
-  );
+  loginSection.classList.add("hidden");
 
-  mainSection.classList.remove(
-    "hidden"
-  );
+  mainSection.classList.remove("hidden");
 
-  logoutBtn.classList.remove(
-    "hidden"
-  );
+  logoutBtn.classList.remove("hidden");
 
   userEmail.textContent =
     user.email || "---";
@@ -153,59 +142,15 @@ function showMain(user) {
 
 
 /* =========================================================
-   CHECK USER
-========================================================= */
-
-async function checkUser() {
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient.auth
-      .getSession();
-
-
-  if (error) {
-
-    console.error(error);
-
-    showLogin();
-
-    return;
-
-  }
-
-
-  if (
-    data.session &&
-    data.session.user
-  ) {
-
-    showMain(
-      data.session.user
-    );
-
-    await loadData();
-
-  } else {
-
-    showLogin();
-
-  }
-
-}
-
-
-/* =========================================================
-   LOGIN EMAIL + PASSWORD
+   LOGIN
 ========================================================= */
 
 loginForm.addEventListener(
   "submit",
-  async function (event) {
+  async function(event) {
 
     event.preventDefault();
+
 
     loginError.innerHTML = "";
 
@@ -243,16 +188,26 @@ loginForm.addEventListener(
         });
 
 
+    /* =====================================================
+       LOGIN ERROR
+    ===================================================== */
+
     if (error) {
 
       console.error(error);
 
       loginError.innerHTML = `
+
         <div class="error-box">
+
           Đăng nhập thất bại.<br>
+
           ${escapeHtml(error.message)}
+
         </div>
+
       `;
+
 
       loginBtn.disabled = false;
 
@@ -264,17 +219,22 @@ loginForm.addEventListener(
     }
 
 
-    showMain(
-      data.user
-    );
-
+    /* =====================================================
+       LOGIN SUCCESS
+    ===================================================== */
 
     loginForm.reset();
+
 
     loginBtn.disabled = false;
 
     loginBtn.textContent =
       "Đăng nhập";
+
+
+    showMain(
+      data.user
+    );
 
 
     await loadData();
@@ -284,17 +244,61 @@ loginForm.addEventListener(
 
 
 /* =========================================================
+   CHECK SESSION
+========================================================= */
+
+async function checkUser() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth.getSession();
+
+
+  if (error) {
+
+    console.error(error);
+
+    showLogin();
+
+    return;
+
+  }
+
+
+  if (
+    data.session &&
+    data.session.user
+  ) {
+
+    showMain(
+      data.session.user
+    );
+
+
+    await loadData();
+
+  } else {
+
+    showLogin();
+
+  }
+
+}
+
+
+/* =========================================================
    LOGOUT
 ========================================================= */
 
 logoutBtn.addEventListener(
   "click",
-  async function () {
+  async function() {
 
     await supabaseClient.auth.signOut();
 
-    window.location.href =
-      "manager.html";
+    window.location.reload();
 
   }
 );
@@ -330,10 +334,12 @@ async function loadData() {
 
     console.error(error);
 
+
     showTableError(
       "Không thể tải dữ liệu: " +
       error.message
     );
+
 
     return;
 
@@ -350,6 +356,7 @@ async function loadData() {
 
   currentPage = 1;
 
+
   applySearch();
 
 }
@@ -361,7 +368,7 @@ async function loadData() {
 
 searchInput.addEventListener(
   "input",
-  function () {
+  function() {
 
     currentPage = 1;
 
@@ -388,7 +395,7 @@ function applySearch() {
 
     filteredData =
       allData.filter(
-        function (item) {
+        function(item) {
 
           return (
 
@@ -437,12 +444,15 @@ function renderTable() {
       "hidden"
     );
 
+
     pageInfo.textContent =
       "Trang 0";
+
 
     prevBtn.disabled = true;
 
     nextBtn.disabled = true;
+
 
     return;
 
@@ -488,7 +498,7 @@ function renderTable() {
 
 
   pageData.forEach(
-    function (item) {
+    function(item) {
 
       const tr =
         document.createElement(
@@ -499,30 +509,46 @@ function renderTable() {
       tr.innerHTML = `
 
         <td>
+
           <strong>
             ${escapeHtml(item.ho_ten)}
           </strong>
+
         </td>
 
+
         <td>
+
           ${escapeHtml(item.cccd)}
+
         </td>
 
+
         <td>
+
           ${escapeHtml(item.dia_chi || "")}
+
         </td>
 
+
         <td>
+
           ${escapeHtml(item.noi_cap || "")}
+
         </td>
 
+
         <td>
+
           ${formatDate(item.ngay_cap)}
+
         </td>
+
 
         <td>
 
           <div class="action-buttons">
+
 
             <button
               class="action-btn edit-btn"
@@ -531,12 +557,14 @@ function renderTable() {
               Sửa
             </button>
 
+
             <button
               class="action-btn delete-btn"
               onclick="deleteData('${item.id}')"
             >
               Xóa
             </button>
+
 
           </div>
 
@@ -571,7 +599,7 @@ function renderTable() {
 
 prevBtn.addEventListener(
   "click",
-  function () {
+  function() {
 
     if (currentPage > 1) {
 
@@ -587,7 +615,7 @@ prevBtn.addEventListener(
 
 nextBtn.addEventListener(
   "click",
-  function () {
+  function() {
 
     const totalPages =
       Math.ceil(
@@ -616,7 +644,7 @@ nextBtn.addEventListener(
 
 refreshBtn.addEventListener(
   "click",
-  async function () {
+  async function() {
 
     await loadData();
 
@@ -629,11 +657,11 @@ refreshBtn.addEventListener(
 ========================================================= */
 
 window.openEdit =
-  function (id) {
+  function(id) {
 
     const item =
       allData.find(
-        function (row) {
+        function(row) {
 
           return String(row.id) ===
             String(id);
@@ -725,14 +753,14 @@ cancelEditBtn.addEventListener(
 
 
 /* =========================================================
-   EDIT CCCD ONLY NUMBERS
+   EDIT CCCD - ONLY NUMBER
 ========================================================= */
 
 document
   .getElementById("editCccd")
   .addEventListener(
     "input",
-    function () {
+    function() {
 
       this.value =
         this.value
@@ -749,7 +777,7 @@ document
 
 editForm.addEventListener(
   "submit",
-  async function (event) {
+  async function(event) {
 
     event.preventDefault();
 
@@ -864,11 +892,11 @@ editForm.addEventListener(
 ========================================================= */
 
 window.deleteData =
-  async function (id) {
+  async function(id) {
 
     const item =
       allData.find(
-        function (row) {
+        function(row) {
 
           return String(row.id) ===
             String(id);
@@ -934,7 +962,7 @@ window.deleteData =
 
 exportBtn.addEventListener(
   "click",
-  function () {
+  function() {
 
     if (
       filteredData.length === 0
@@ -951,7 +979,7 @@ exportBtn.addEventListener(
 
     const excelData =
       filteredData.map(
-        function (item) {
+        function(item) {
 
           return {
 
@@ -1090,9 +1118,13 @@ function formatDate(dateValue) {
 function showTableMessage(message) {
 
   tableMessage.innerHTML = `
+
     <div class="success-message">
+
       ${escapeHtml(message)}
+
     </div>
+
   `;
 
 }
@@ -1101,9 +1133,13 @@ function showTableMessage(message) {
 function showTableError(message) {
 
   tableMessage.innerHTML = `
+
     <div class="error-box">
+
       ${escapeHtml(message)}
+
     </div>
+
   `;
 
 }
@@ -1112,9 +1148,13 @@ function showTableError(message) {
 function showEditError(message) {
 
   editMessage.innerHTML = `
+
     <div class="error-box">
+
       ${escapeHtml(message)}
+
     </div>
+
   `;
 
 }
@@ -1128,30 +1168,15 @@ function escapeHtml(value) {
 
   return String(value)
 
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
+    .replaceAll("&", "&amp;")
 
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
+    .replaceAll("<", "&lt;")
 
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
+    .replaceAll(">", "&gt;")
 
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
+    .replaceAll('"', "&quot;")
 
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+    .replaceAll("'", "&#039;");
 
 }
 
@@ -1161,7 +1186,7 @@ function escapeHtml(value) {
 ========================================================= */
 
 supabaseClient.auth.onAuthStateChange(
-  function (_event, session) {
+  function(_event, session) {
 
     if (
       session &&
