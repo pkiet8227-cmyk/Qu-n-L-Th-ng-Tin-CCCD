@@ -4,13 +4,18 @@
    SUPABASE
 ========================================================= */
 
-const SUPABASE_URL = "https://hfvcvxrljvbqqifgbkac.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_85chCDmVUX_rKw8f3FKfLA_zMWP5__-";
+const SUPABASE_URL =
+  "https://hfvcvxrljvbqqifgbkac.supabase.co";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
+const SUPABASE_ANON_KEY =
+  "sb_publishable_85chCDmVUX_rKw8f3FKfLA_zMWP5__-";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
 
 
 /* =========================================================
@@ -38,14 +43,17 @@ const loginSection =
 const mainSection =
   document.getElementById("mainSection");
 
-const googleLoginBtn =
-  document.getElementById("googleLoginBtn");
+const loginForm =
+  document.getElementById("loginForm");
 
-const logoutBtn =
-  document.getElementById("logoutBtn");
+const loginBtn =
+  document.getElementById("loginBtn");
 
 const loginError =
   document.getElementById("loginError");
+
+const logoutBtn =
+  document.getElementById("logoutBtn");
 
 const userEmail =
   document.getElementById("userEmail");
@@ -100,6 +108,51 @@ const editMessage =
 
 
 /* =========================================================
+   SHOW LOGIN
+========================================================= */
+
+function showLogin() {
+
+  loginSection.classList.remove(
+    "hidden"
+  );
+
+  mainSection.classList.add(
+    "hidden"
+  );
+
+  logoutBtn.classList.add(
+    "hidden"
+  );
+
+}
+
+
+/* =========================================================
+   SHOW MAIN
+========================================================= */
+
+function showMain(user) {
+
+  loginSection.classList.add(
+    "hidden"
+  );
+
+  mainSection.classList.remove(
+    "hidden"
+  );
+
+  logoutBtn.classList.remove(
+    "hidden"
+  );
+
+  userEmail.textContent =
+    user.email || "---";
+
+}
+
+
+/* =========================================================
    CHECK USER
 ========================================================= */
 
@@ -108,7 +161,9 @@ async function checkUser() {
   const {
     data,
     error
-  } = await supabaseClient.auth.getSession();
+  } =
+    await supabaseClient.auth
+      .getSession();
 
 
   if (error) {
@@ -122,16 +177,14 @@ async function checkUser() {
   }
 
 
-  const session =
-    data.session;
-
-
   if (
-    session &&
-    session.user
+    data.session &&
+    data.session.user
   ) {
 
-    showMain(session.user);
+    showMain(
+      data.session.user
+    );
 
     await loadData();
 
@@ -145,61 +198,47 @@ async function checkUser() {
 
 
 /* =========================================================
-   SHOW LOGIN
+   LOGIN EMAIL + PASSWORD
 ========================================================= */
 
-function showLogin() {
+loginForm.addEventListener(
+  "submit",
+  async function (event) {
 
-  loginSection.classList.remove("hidden");
+    event.preventDefault();
 
-  mainSection.classList.add("hidden");
-
-}
-
-
-/* =========================================================
-   SHOW MAIN
-========================================================= */
-
-function showMain(user) {
-
-  loginSection.classList.add("hidden");
-
-  mainSection.classList.remove("hidden");
-
-  userEmail.textContent =
-    user.email || "---";
-
-}
+    loginError.innerHTML = "";
 
 
-/* =========================================================
-   GOOGLE LOGIN
-========================================================= */
-
-googleLoginBtn.addEventListener(
-  "click",
-  async function () {
-
-    loginError.textContent = "";
+    const email =
+      document
+        .getElementById("loginEmail")
+        .value
+        .trim();
 
 
-    const redirectTo =
-      window.location.origin +
-      window.location.pathname;
+    const password =
+      document
+        .getElementById("loginPassword")
+        .value;
+
+
+    loginBtn.disabled = true;
+
+    loginBtn.textContent =
+      "Đang đăng nhập...";
 
 
     const {
+      data,
       error
     } =
       await supabaseClient.auth
-        .signInWithOAuth({
+        .signInWithPassword({
 
-          provider: "google",
+          email: email,
 
-          options: {
-            redirectTo: redirectTo
-          }
+          password: password
 
         });
 
@@ -208,11 +247,37 @@ googleLoginBtn.addEventListener(
 
       console.error(error);
 
-      loginError.textContent =
-        "Không thể đăng nhập: " +
-        error.message;
+      loginError.innerHTML = `
+        <div class="error-box">
+          Đăng nhập thất bại.<br>
+          ${escapeHtml(error.message)}
+        </div>
+      `;
+
+      loginBtn.disabled = false;
+
+      loginBtn.textContent =
+        "Đăng nhập";
+
+      return;
 
     }
+
+
+    showMain(
+      data.user
+    );
+
+
+    loginForm.reset();
+
+    loginBtn.disabled = false;
+
+    loginBtn.textContent =
+      "Đăng nhập";
+
+
+    await loadData();
 
   }
 );
@@ -228,7 +293,8 @@ logoutBtn.addEventListener(
 
     await supabaseClient.auth.signOut();
 
-    window.location.reload();
+    window.location.href =
+      "manager.html";
 
   }
 );
@@ -274,11 +340,15 @@ async function loadData() {
   }
 
 
-  allData = data || [];
+  allData =
+    data || [];
+
 
   totalCount.textContent =
     allData.length;
 
+
+  currentPage = 1;
 
   applySearch();
 
@@ -333,7 +403,6 @@ function applySearch() {
             String(
               item.cccd || ""
             )
-              .toLowerCase()
               .includes(keyword)
 
           );
@@ -422,7 +491,9 @@ function renderTable() {
     function (item) {
 
       const tr =
-        document.createElement("tr");
+        document.createElement(
+          "tr"
+        );
 
 
       tr.innerHTML = `
@@ -583,12 +654,6 @@ window.openEdit =
 
 
     editingId =
-      item.id;
-
-
-    document.getElementById(
-      "editId"
-    ).value =
       item.id;
 
 
@@ -903,7 +968,9 @@ exportBtn.addEventListener(
               item.noi_cap || "",
 
             "Ngày cấp":
-              formatDate(item.ngay_cap)
+              formatDate(
+                item.ngay_cap
+              )
 
           };
 
@@ -916,8 +983,6 @@ exportBtn.addEventListener(
         excelData
       );
 
-
-    /* ĐỘ RỘNG CỘT */
 
     worksheet["!cols"] = [
 
@@ -1056,7 +1121,7 @@ function showEditError(message) {
 
 
 /* =========================================================
-   ESCAPE
+   ESCAPE HTML
 ========================================================= */
 
 function escapeHtml(value) {
@@ -1096,14 +1161,16 @@ function escapeHtml(value) {
 ========================================================= */
 
 supabaseClient.auth.onAuthStateChange(
-  async function (_event, session) {
+  function (_event, session) {
 
     if (
       session &&
       session.user
     ) {
 
-      showMain(session.user);
+      showMain(
+        session.user
+      );
 
     } else {
 
