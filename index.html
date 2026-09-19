@@ -3,7 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
   <title>Nhập thông tin CCCD</title>
 
@@ -16,14 +20,22 @@
 
 <div class="app">
 
+  <!-- ================= HEADER ================= -->
+
   <header class="topbar">
 
     <div>
-      <h1>QUẢN LÝ CCCD</h1>
-      <p>Nhập thông tin giấy tờ</p>
+      <h1>NHẬP THÔNG TIN CCCD</h1>
+
+      <p>
+        Nhập thông tin khách hàng
+      </p>
     </div>
 
-    <button id="logoutBtn" class="btn btn-danger small hidden">
+    <button
+      id="logoutBtn"
+      class="btn btn-danger small hidden"
+    >
       Đăng xuất
     </button>
 
@@ -32,7 +44,10 @@
 
   <!-- ================= LOGIN ================= -->
 
-  <section id="loginSection" class="login-section">
+  <section
+    id="loginSection"
+    class="login-section"
+  >
 
     <div class="login-card">
 
@@ -40,12 +55,11 @@
         CCCD
       </div>
 
-      <h2>Đăng nhập hệ thống</h2>
+      <h2>Đăng nhập</h2>
 
       <p class="muted">
         Sử dụng Gmail và mật khẩu được cấp
       </p>
-
 
       <form id="loginForm">
 
@@ -93,7 +107,6 @@
 
       </form>
 
-
       <div id="loginError"></div>
 
     </div>
@@ -101,9 +114,12 @@
   </section>
 
 
-  <!-- ================= MAIN ================= -->
+  <!-- ================= INPUT ================= -->
 
-  <main id="mainSection" class="hidden">
+  <main
+    id="mainSection"
+    class="hidden"
+  >
 
     <div class="user-box">
 
@@ -112,71 +128,69 @@
         <span id="userEmail">---</span>
       </div>
 
-      <a
-        href="manager.html"
-        class="manager-link"
-      >
-        Quản lý dữ liệu →
-      </a>
-
     </div>
 
 
-    <!-- ================= FORM ================= -->
+    <section class="card input-card">
 
-    <section class="card">
+      <div class="section-title">
 
-      <div class="card-title">
+        <h2>Thông tin CCCD</h2>
 
-        <div>
-
-          <h2>Nhập thông tin CCCD</h2>
-
-          <p>
-            Vui lòng nhập chính xác thông tin
-          </p>
-
-        </div>
+        <p>
+          Vui lòng nhập đầy đủ thông tin
+        </p>
 
       </div>
 
 
       <form id="cccdForm">
 
+        <!-- HỌ TÊN -->
 
         <div class="form-group">
 
           <label for="hoTen">
-            Họ và tên <span>*</span>
+            Họ và tên
           </label>
 
           <input
             type="text"
             id="hoTen"
             placeholder="Nhập họ và tên"
+            autocomplete="name"
             required
           >
 
         </div>
 
 
+        <!-- CCCD -->
+
         <div class="form-group">
 
           <label for="cccd">
-            Số CCCD <span>*</span>
+            Số CCCD
           </label>
 
           <input
             type="text"
             id="cccd"
             placeholder="Nhập 12 số CCCD"
-            inputmode="numeric"
             maxlength="12"
+            inputmode="numeric"
+            autocomplete="off"
             required
           >
 
+          <small class="field-note">
+            CCCD phải gồm đúng 12 số
+          </small>
+
         </div>
 
+
+        <!-- ĐỊA CHỈ -->
 
         <div class="form-group">
 
@@ -193,6 +207,8 @@
         </div>
 
 
+        <!-- NƠI CẤP -->
+
         <div class="form-group">
 
           <label for="noiCap">
@@ -202,11 +218,13 @@
           <input
             type="text"
             id="noiCap"
-            placeholder="Nhập nơi cấp CCCD"
+            placeholder="Ví dụ: Cục Cảnh sát QLHC về TTXH"
           >
 
         </div>
 
+
+        <!-- NGÀY CẤP -->
 
         <div class="form-group">
 
@@ -221,6 +239,8 @@
 
         </div>
 
+
+        <!-- BUTTON -->
 
         <button
           type="submit"
